@@ -39,6 +39,12 @@ class SuperState:
         return self.terrainData.getTheOtherGoal(self.it)
 
     @property
+    def opp_it(self):
+        if self.it == 1:
+            return 2
+        return 1
+
+    @property
     def ball(self):
         """
         Returns a MobileMixin
@@ -187,6 +193,13 @@ class SuperState:
         return self.terrainData.ballOnWhichSide(self.ball_pos) == self.it
 
     @property
+    def farthest_opp_corner_from_nearest_opp(self):
+        nearest = self.nearest_opp
+        corner = self.terrainData.farthestCorner(nearest.position, self.it)
+        return corner
+
+
+    @property
     def close_defensive_pos(self):
         return soc.Vector2D(norm = ((self.ally_goal - self.ball_pos).x / 4. ) / math.cos(self.angle_median_ally_goal(self.ball_pos)), angle = self.angle_median_ally_goal(self.ball_pos))
 
@@ -255,6 +268,7 @@ class GoalData:
     """
     def __init__(self, team_id):
         assert team_id in [1,2]
+        self.it = team_id
         self.vector = soc.Vector2D(soc.settings.GAME_WIDTH * (1 + (team_id - 1) * 2) / 4, soc.settings.GAME_HEIGHT / 2)
 
     def __repr__(self):
@@ -262,11 +276,19 @@ class GoalData:
 
     @property
     def top(self):
-        return self.vector + soc.Vector2D(0, soc.settings.GAME_GOAL_HEIGHT/2)
+        return self.vector + soc.Vector2D(0, soc.settings.GAME_HEIGHT/2 + 5)
 
     @property
     def bottom(self):
-        return self.vector - soc.Vector2D(0, soc.settings.GAME_GOAL_HEIGHT/2)
+        return self.vector - soc.Vector2D(0, soc.settings.GAME_HEIGHT/2 - 5)
+
+    @property
+    def left(self):
+        return self.vector - soc.Vector2D(soc.settings.GAME_WIDTH/4 + 0 if self.it == 1 else 10, 0)
+
+    @property
+    def right(self):
+        return self.vector + soc.Vector2D(soc.settings.GAME_WIDTH/4 - 0 if self.it == 2 else 10, 0)
         
 class TerrainData:
 
@@ -300,3 +322,9 @@ class TerrainData:
     def ballOnWhichSide(self, ball_pos):
         ball_x = ball_pos.x
         return 1 if ball_x < self.center.x else 2
+
+    def farthestCorner(self, opp_pos, it):
+        goal = self.getTheOtherGoal(it)
+        x = goal.left.x if opp_pos.x >= goal.vector.x else goal.right.x
+        y = goal.bottom.y if opp_pos.y >= goal.vector.y else goal.top.y
+        return soc.Vector2D(x, y)

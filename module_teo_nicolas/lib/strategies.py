@@ -1,13 +1,12 @@
 """
 We only define compute_strategy here and ways to create strategies from them
 """
-import soccersimulator as soc
 import math
 
+import soccersimulator as soc
 from .soccer import action as act
 from .soccer import strategy_encapsulator as strat
 
-from . import manager as man
 
 def createStrategy(behavior):
     return strat.SimpleStrategy(behavior)
@@ -28,14 +27,21 @@ class Echauffement(strat.StrategyBehavior):
         else :
             self.changeMoveAction(act.RunToEchauffementPos())
 
-class AttaquantBehavior(strat.StrategyBehavior):
+class Attaque(strat.StrategyBehavior):
     def __init__(self):
-            strat.StrategyBehavior.__init__(self, "Attaquant", act.RunToPredictBall(), act.ShootToMoveToGoal())
+            strat.StrategyBehavior.__init__(self, "Attaque", act.RunToPredictBall(), act.ShootToCornerFarFromOpp())
+            self.passes_a_soi = 0
     def updateActions(self, super_state):
-        if super_state.player_pos.distance(super_state.opp_goal) > 30:
-            self.changeShootAction(act.ShootToMoveToGoal())
-        else : 
-            self.changeShootAction(act.StrongShootToGoal())
+        pass
+
+class Defense(strat.StrategyBehavior):
+    def __init__(self):
+            strat.StrategyBehavior.__init__(self, "Attaque", act.RunToFarthestCorner(), act.ShootToCornerFarFromOpp())
+            self.passes_a_soi = 0
+    def updateActions(self, super_state):
+        pass
+
+# BEFORE VOLLEY
 
         
 class GoalBehaviorTeam(strat.StrategyBehavior):
@@ -114,8 +120,3 @@ class GoalBehaviorAlone(strat.StrategyBehavior):
                 if super_state.is_ball_near_our_goal :
                     self.changeMoveAction(act.RunToCloseDefensivePos())
                 else :self.changeMoveAction(act.RunToDefensivePos())
-    
-
-
-
-

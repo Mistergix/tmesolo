@@ -1,0 +1,9 @@
+Q2 :
+Le joueur qui a la balle calcule le coin du terrain adverse le plus éloigné de l'adversaire: si l'adversaire est tout en bas à gauche,
+le coin est celui au milieu (du terrain) en haut. Je voulais faire en sorte que le joueur se rapproche le plus possible du filet avant de tirer mais 
+je n'ai pas eu le temps.
+Q3 :
+
+Modifications par rapport au foot :
+- Le goal n'est plus au fond, il faut recalculer les coordonnées
+- Il faut prendre en compte les bords et le nombre de passes : affinage des actions
