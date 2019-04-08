@@ -82,6 +82,8 @@ class SuperState:
         if len(l) > 0 :
             return min(l, key=self.key)[1]
         return self.player
+
+    
 		
     @property
     def nearest_player(self):
@@ -177,6 +179,14 @@ class SuperState:
         return soc.Vector2D(norm = ((self.ally_goal - self.ball_pos).x / 1.5 ) / math.cos(self.angle_median_ally_goal(self.ball_pos)), angle = self.angle_median_ally_goal(self.ball_pos))
 
     @property
+    def echauffement_pos(self):
+        return self.ally_goal
+
+    @property
+    def is_ball_on_our_side(self):
+        return self.terrainData.ballOnWhichSide(self.ball_pos) == self.it
+
+    @property
     def close_defensive_pos(self):
         return soc.Vector2D(norm = ((self.ally_goal - self.ball_pos).x / 4. ) / math.cos(self.angle_median_ally_goal(self.ball_pos)), angle = self.angle_median_ally_goal(self.ball_pos))
 
@@ -245,7 +255,7 @@ class GoalData:
     """
     def __init__(self, team_id):
         assert team_id in [1,2]
-        self.vector = soc.Vector2D(soc.settings.GAME_WIDTH * (team_id - 1), soc.settings.GAME_HEIGHT / 2)
+        self.vector = soc.Vector2D(soc.settings.GAME_WIDTH * (1 + (team_id - 1) * 2) / 4, soc.settings.GAME_HEIGHT / 2)
 
     def __repr__(self):
         return self.vector
@@ -286,3 +296,7 @@ class TerrainData:
         if id_team == 1 :
             return self.getMyGoal(2)
         return self.getMyGoal(1)
+
+    def ballOnWhichSide(self, ball_pos):
+        ball_x = ball_pos.x
+        return 1 if ball_x < self.center.x else 2
