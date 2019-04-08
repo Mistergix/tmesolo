@@ -189,7 +189,7 @@ class SuperState:
     def echauffement_pos(self):
         if self.nb_player_per_team == 1 :
             return self.ally_goal
-        return self.all_goal
+        return self.ally_goal
 
     @property
     def is_ball_on_our_side(self):
