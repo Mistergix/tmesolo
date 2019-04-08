@@ -56,13 +56,26 @@ class ShootToCornerFarFromOpp(Shoot):
 		return soc.SoccerAction(shoot=shootVec)
 
 class RunToFarthestCorner(Move):
-	def __init__(self):
+	def __init__(self, super_state):
 		Move.__init__(self, "RunToFarthestCorner")
+		self.corner = super_state.farthest_ally_corner
 
 	def computeAction(self, superstate):
-		corner = superstate.farthest_opp_corner_from_nearest_opp
-		run = (corner - superstate.player_pos)
+		print(self.corner)
+		run = (self.corner - superstate.player_pos)
 		return soc.SoccerAction(acceleration=run)
+
+class DontShoot(Shoot):
+	def __init__(self):
+		Shoot.__init__(self, "DontShoot")
+	def computeAction(self, superstate):
+		return soc.SoccerAction(shoot=soc.Vector2D())
+
+class DontMove(Move):
+	def __init__(self):
+		Shoot.__init__(self, "DontMove")
+	def computeAction(self, superstate):
+		return soc.SoccerAction(acceleration=soc.Vector2D())
 
 
 

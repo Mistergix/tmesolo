@@ -193,9 +193,22 @@ class SuperState:
         return self.terrainData.ballOnWhichSide(self.ball_pos) == self.it
 
     @property
+    def is_ball_near_center(self):
+        return abs(self.ball_pos.x - self.terrainData.center.x) <= self.terrainData.width / 6
+
+    @property
+    def is_ball_near_opp(self):
+        return self.ball_pos.distance(self.nearest_opp.position) <= soc.settings.PLAYER_RADIUS + soc.settings.BALL_RADIUS
+
+    @property
     def farthest_opp_corner_from_nearest_opp(self):
         nearest = self.nearest_opp
         corner = self.terrainData.farthestCorner(nearest.position, self.it)
+        return corner
+
+    @property
+    def farthest_ally_corner(self):
+        corner = self.terrainData.farthestCorner(self.player_pos, self.opp_it)
         return corner
 
 

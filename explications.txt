@@ -3,6 +3,7 @@ Le joueur qui a la balle calcule le coin du terrain adverse le plus éloigné de
 le coin est celui au milieu (du terrain) en haut. Je voulais faire en sorte que le joueur se rapproche le plus possible du filet avant de tirer mais 
 je n'ai pas eu le temps.
 Q3 :
+Si la balle est de nôtre côté ou qu'elle est proche du centre et que l'adversaire est proche d'elle, on court vers la où on pense qu'elle sera.
 
 Modifications par rapport au foot :
 - Le goal n'est plus au fond, il faut recalculer les coordonnées
