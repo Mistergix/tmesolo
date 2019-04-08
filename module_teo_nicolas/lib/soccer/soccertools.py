@@ -16,6 +16,7 @@ class SuperState:
         self.it = id_team
         self.ip = id_player
         self.key = lambda r: r[0]
+        self.nb_player_per_team = len(state.players) // 2
 
     @property
     def can_shoot(self):
@@ -186,7 +187,9 @@ class SuperState:
 
     @property
     def echauffement_pos(self):
-        return self.ally_goal
+        if self.nb_player_per_team == 1 :
+            return self.ally_goal
+        return self.all_goal
 
     @property
     def is_ball_on_our_side(self):

@@ -4,6 +4,11 @@ le coin est celui au milieu (du terrain) en haut. Je voulais faire en sorte que 
 je n'ai pas eu le temps.
 Q3 :
 Si la balle est de nôtre côté ou qu'elle est proche du centre et que l'adversaire est proche d'elle, on court vers la où on pense qu'elle sera.
+Q4 : 
+Mélange des deux précédentes.
+Q5 :
+Pour le moment : deux joueur avec la même strat qu'avant.
+
 
 Modifications par rapport au foot :
 - Le goal n'est plus au fond, il faut recalculer les coordonnées

@@ -48,6 +48,17 @@ class Defense(strat.StrategyBehavior):
         else :
             self.changeMoveAction(act.RunToDefensivePos())
 
+class One(strat.StrategyBehavior):
+    def __init__(self):
+            strat.StrategyBehavior.__init__(self, "Attaque", act.RunToDefensivePos(), act.ShootToCornerFarFromOpp())
+            self.passes_a_soi = 0
+    def updateActions(self, super_state):
+        if (not super_state.is_ball_on_our_side and super_state.is_ball_near_center and super_state.is_ball_near_opp) or super_state.is_ball_on_our_side:
+            
+            self.changeMoveAction(act.RunToPredictBall())
+        else :
+            self.changeMoveAction(act.RunToDefensivePos())
+
 
 # BEFORE VOLLEY
 
